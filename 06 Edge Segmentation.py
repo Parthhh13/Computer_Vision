@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import cv2
 
 # Load and denoise the image
-image = cv2.imread("sample.jpg", cv2.IMREAD_GRAYSCALE)
+image = cv2.imread("moon-cycle.jpg", cv2.IMREAD_GRAYSCALE)
 image=cv2.resize(image,(256,256))
-image=255-image
+
 
 blur_image=cv2.GaussianBlur(image,(5,5),0)
 
@@ -14,10 +14,11 @@ grad_X=cv2.Sobel(blur_image,cv2.CV_64F,1,0,ksize=3)
 grad_y=cv2.Sobel(blur_image,cv2.CV_64F,0,1,ksize=3)
 
 magnitude=(grad_X**2+grad_y**2)**0.5
-threshold_mag=0.95*np.max(magnitude)
+threshold_mag=0.5*np.max(magnitude)
 
 bin_edges=np.where(magnitude>threshold_mag,1,0)
-bin_edges_display=np.where(magnitude>threshold_mag,255,0)
+norm_magnitude = (magnitude / np.max(magnitude)) * 255
+bin_edges_display = np.where(norm_magnitude > (0.5 * 255), 255, 0)
 
 #Mask with the orignal image
 edges=bin_edges*image
@@ -58,29 +59,19 @@ threshold,_=otsu_thresholding(edges)
 
 final=np.where(image>threshold,255,0)
 
+
 plt.figure(figsize=(8, 6))
 
-# Original Image
-plt.subplot(2, 2, 1)
-plt.title("Original Image")
-plt.imshow(image, cmap='gray')
-plt.axis('off')
+images=[image,magnitude,bin_edges_display,edges,final]
+title=["Orignal Image","Sobel edges","Strong edges","Masked image","Final image"]
 
-#Otsu Thresholding
-plt.subplot(2, 2, 2)
-plt.title(f"Binary edges (95%ile)")
-plt.imshow(bin_edges_display, cmap='gray')
-plt.axis('off')
+for i in range(len(images)):
+    plt.subplot(2, 3, i+1)
+    plt.title(title[i])
+    plt.imshow(images[i], cmap='gray')
+    plt.axis('off')
 
-plt.subplot(2, 2, 3)
-plt.title(f"Masked image")
-plt.imshow(edges, cmap='gray')
-plt.axis('off')
-
-plt.subplot(2, 2, 4)
-plt.title(f"Final output with threshold={threshold}")
-plt.imshow(final, cmap='gray')
-plt.axis('off')
-
-plt.tight_layout()
+font = {'family': 'serif', 'color':  'darkred', 'weight': 'bold', 'size': 11}
+plt.figtext(x=0.68, y=0.49,s= f"Optimal Threshold value = {threshold}",fontdict=font)
+#plt.tight_layout()
 plt.show()
