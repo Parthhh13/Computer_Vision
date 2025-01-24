@@ -2,14 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 
+
 # Load and denoise the image
-image = cv2.imread("thresholding.jpg", cv2.IMREAD_GRAYSCALE)
+image = cv2.imread("lenna.jpg", cv2.IMREAD_GRAYSCALE)
 image=cv2.resize(image,(256,256))
 
-
-
-
-#Find the binary edge matrix
 def edge_thresholding(image):
     blur_image=cv2.GaussianBlur(image,(5,5),0)
     grad_X=cv2.Sobel(blur_image,cv2.CV_64F,1,0,ksize=3)
@@ -19,8 +16,6 @@ def edge_thresholding(image):
     threshold_mag=0.5*np.max(magnitude)
 
     bin_edges=np.where(magnitude>threshold_mag,1,0)
-    norm_magnitude = (magnitude / np.max(magnitude)) * 255
-    bin_edges_display = np.where(norm_magnitude > (0.5 * 255), 255, 0)
 
     #Mask with the orignal image
     edges=bin_edges*image
@@ -59,23 +54,60 @@ def edge_thresholding(image):
     threshold,_=otsu_thresholding(edges)
 
     final=np.where(image>threshold,255,0)
-    return magnitude, bin_edges_display, edges, threshold, final
-
-magnitude, bin_edges_display, edges, threshold, final = edge_thresholding(image)
+    return threshold,final
 
 
-plt.figure(figsize=(8, 6))
+def partioning(image,w,h): 
+    rows,cols=image.shape
 
-images=[image,magnitude,bin_edges_display,edges,final]
-title=["Orignal Image","Sobel edges","Strong edges","Masked image","Final image"]
+    part_rows=rows//w
+    part_cols=cols//h
+
+    parts=[]
+    for i in range(w):
+        for j in range(h):
+            part=image[i*part_rows:(i+1)*part_rows,j*part_cols:(j+1)*part_cols]
+            parts.append(part)
+    
+    return parts,part_rows,part_cols
+
+def reconstruction(parts, part_rows, part_cols, w, h):
+    output = np.zeros((part_rows * w, part_cols * h), dtype=np.uint8)
+
+    idx = 0
+    for i in range(w):
+        for j in range(h):
+            output[i * part_rows:(i + 1) * part_rows, j * part_cols:(j + 1) * part_cols] = parts[idx]
+            idx += 1
+
+    return output
+
+
+w, h = 3, 2  # Divide into 3 rows and 2 columns
+parts, part_rows, part_cols = partioning(image, w, h)
+images=[]
+title=[]
+for part in parts:
+    thresh,bin=edge_thresholding(part)
+    images.append(bin)
+    title.append(thresh)
+
+output=reconstruction(images,part_rows,part_cols,w,h)
 
 for i in range(len(images)):
-    plt.subplot(2, 3, i+1)
-    plt.title(title[i])
+    plt.subplot(3, 2, i+1)
+    plt.title(f'Threshold ={title[i]}')
     plt.imshow(images[i], cmap='gray')
-    plt.axis('off')
+    #plt.axis('off')
+plt.tight_layout()
+plt.show()
 
-font = {'family': 'serif', 'color':  'darkred', 'weight': 'bold', 'size': 11}
-plt.figtext(x=0.68, y=0.49,s= f"Optimal Threshold value = {threshold}",fontdict=font)
-#plt.tight_layout()
+display=[image,output]
+titles=["Input Image","Output Image"]
+for i in range(len(display)):
+    plt.subplot(1, 2, i+1)
+    plt.title(titles[i])
+    plt.imshow(display[i], cmap='gray')
+    plt.axis('off')
+plt.tight_layout()
 plt.show()
