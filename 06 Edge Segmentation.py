@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import cv2
 
 # Load and denoise the image
-image = cv2.imread("thresholding.jpg", cv2.IMREAD_GRAYSCALE)
+image = cv2.imread("uneven.jpg", cv2.IMREAD_GRAYSCALE)
 image=cv2.resize(image,(256,256))
 
 

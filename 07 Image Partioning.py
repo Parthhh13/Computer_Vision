@@ -5,7 +5,8 @@ import cv2
 
 # Load and denoise the image
 image = cv2.imread("lenna.jpg", cv2.IMREAD_GRAYSCALE)
-image=cv2.resize(image,(256,256))
+#image=cv2.resize(image,(256,256))
+
 
 def edge_thresholding(image):
     blur_image=cv2.GaussianBlur(image,(5,5),0)
@@ -83,7 +84,7 @@ def reconstruction(parts, part_rows, part_cols, w, h):
     return output
 
 
-w, h = 3, 2  # Divide into 3 rows and 2 columns
+w, h = 3, 3  
 parts, part_rows, part_cols = partioning(image, w, h)
 images=[]
 title=[]
@@ -95,7 +96,7 @@ for part in parts:
 output=reconstruction(images,part_rows,part_cols,w,h)
 
 for i in range(len(images)):
-    plt.subplot(3, 2, i+1)
+    plt.subplot(w, h, i+1)
     plt.title(f'Threshold ={title[i]}')
     plt.imshow(images[i], cmap='gray')
     #plt.axis('off')
