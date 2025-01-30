@@ -5,7 +5,11 @@ import matplotlib.pyplot as plt
 # Load the image
 image = cv2.imread("thresholding.jpg", cv2.IMREAD_GRAYSCALE)
 #image=cv2.resize(image,(100,100))
+<<<<<<< HEAD
 #image=cv2.GaussianBlur(image,(5,5),0)
+=======
+image=cv2.GaussianBlur(image,(5,5),0)
+>>>>>>> 4e9f75ac8efcc445bd823b46614128ee8b5ca810
 
 
 def component_labeling(binary_image):
@@ -66,7 +70,11 @@ plt.title("Original Image")
 plt.imshow(image, cmap='gray')
 plt.axis('off')
 
+<<<<<<< HEAD
 thresh=20
+=======
+thresh=1
+>>>>>>> 4e9f75ac8efcc445bd823b46614128ee8b5ca810
 bin = np.where(image > thresh, 255, 0).astype(np.uint8)
 
 plt.subplot(1, 3, 2)
