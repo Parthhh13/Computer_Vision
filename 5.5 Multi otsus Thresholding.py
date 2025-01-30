@@ -4,7 +4,7 @@ import cv2
 from itertools import combinations
 
 # Load the image
-image = cv2.imread("lenna.jpg", cv2.IMREAD_GRAYSCALE)
+image = cv2.imread("trees.jpg", cv2.IMREAD_GRAYSCALE)
 image = cv2.resize(image, (256, 256))
 
 def otsu_thresholding(image, num_classes):

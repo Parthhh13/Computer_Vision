@@ -4,7 +4,7 @@ import cv2
 
 
 # Load and denoise the image
-image = cv2.imread(r"E:\Study Material\NIIT\6th Semester\Computer Vision\Lab\uneven.jpg", cv2.IMREAD_GRAYSCALE)
+image = cv2.imread(r"chair.jpg", cv2.IMREAD_GRAYSCALE)
 #image=cv2.resize(image,(256,256))
 image=cv2.GaussianBlur(image,(5,5),0)
 
@@ -30,12 +30,12 @@ def variable_thresholding(image,kernel_size,a,b):
 otsu=np.where(image>151,255,0)
 images=[image,otsu]
 title=["Orignal Image","Otsus output"]
-kernel_size,a,b=15,0.6,0.85
-'''for i in range(10):
-    a+=0.1'''
-output=variable_thresholding(image,kernel_size,a,b)
-images.append(output)
-title.append(f'a,b={a,b}')
+kernel_size,a,b=5,0.9,0.8
+for i in range(1):
+    #b+=0.2
+    output=variable_thresholding(image,kernel_size,a,b)
+    images.append(output)
+    title.append(f'a,b={a,b}')
 
 plt.figure(figsize=(8, 6))
 
