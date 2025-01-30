@@ -4,7 +4,7 @@ import cv2
 
 
 # Load and denoise the image
-image = cv2.imread("lenna.jpg", cv2.IMREAD_GRAYSCALE)
+image = cv2.imread(r"E:\Study Material\NIIT\6th Semester\Computer Vision\Lab\lenna.jpg", cv2.IMREAD_GRAYSCALE)
 #image=cv2.resize(image,(256,256))
 
 

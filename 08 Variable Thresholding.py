@@ -4,7 +4,7 @@ import cv2
 
 
 # Load and denoise the image
-image = cv2.imread("uneven.jpg", cv2.IMREAD_GRAYSCALE)
+image = cv2.imread(r"E:\Study Material\NIIT\6th Semester\Computer Vision\Lab\uneven.jpg", cv2.IMREAD_GRAYSCALE)
 #image=cv2.resize(image,(256,256))
 image=cv2.GaussianBlur(image,(5,5),0)
 
