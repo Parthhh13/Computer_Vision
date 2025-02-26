@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import cv2
 
 # Load the image
-image = cv2.imread(r"E:\Study Material\NIIT\6th Semester\Computer Vision\Lab\Marksmen.jpg", cv2.IMREAD_GRAYSCALE)
+image = cv2.imread(r"E:\Study Material\NIIT\6th Semester\Computer Vision\Lab\Crack.jpg", cv2.IMREAD_GRAYSCALE)
 image=cv2.resize(image,(256,256))
 
 
@@ -35,7 +35,7 @@ def otsu_thresholding(image):
             max_variance=inBWvar
             optimal_threshold=threshold
 
-    binary_image = np.where(image > optimal_threshold, 255, 0)
+    binary_image = np.where(image >90, 255, 0)
 
     return optimal_threshold,binary_image
 
