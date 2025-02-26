@@ -3,10 +3,9 @@ import cv2
 import matplotlib.pyplot as plt
 
 # Load the image
-image = cv2.imread("thresholding.jpg", cv2.IMREAD_GRAYSCALE)
-#image=cv2.resize(image,(100,100))
-image=cv2.GaussianBlur(image,(5,5),0)
+image = cv2.imread("chair.jpg", cv2.IMREAD_GRAYSCALE)
 
+#image=cv2.resize(image,(100,100))
 
 def component_labeling(binary_image):
     rows, cols = binary_image.shape
@@ -66,15 +65,16 @@ plt.title("Original Image")
 plt.imshow(image, cmap='gray')
 plt.axis('off')
 
-thresh=1
-bin = np.where(image > thresh, 255, 0).astype(np.uint8)
 
+thresh=90
+bin = np.where(image > thresh, 255, 0).astype(np.uint8)
+bin2=cv2.GaussianBlur(bin,(25,25),0)
 plt.subplot(1, 3, 2)
 plt.title(f"Segmented Image T={thresh}")
 plt.imshow(bin, cmap='gray')
 plt.axis('off')
 
-final,labels=component_labeling(bin)
+final,labels=component_labeling(bin2)
 
 # Original Image
 plt.subplot(1, 3, 3)

@@ -4,7 +4,7 @@ import cv2
 
 
 # Load and denoise the image
-image = cv2.imread(r"E:\Study Material\NIIT\6th Semester\Computer Vision\Lab\lenna.jpg", cv2.IMREAD_GRAYSCALE)
+image = cv2.imread("chair.jpg", cv2.IMREAD_GRAYSCALE)
 #image=cv2.resize(image,(256,256))
 
 
@@ -84,7 +84,7 @@ def reconstruction(parts, part_rows, part_cols, w, h):
     return output
 
 
-w, h = 3, 3  
+w, h = 3, 1 
 parts, part_rows, part_cols = partioning(image, w, h)
 images=[]
 title=[]
@@ -104,9 +104,9 @@ plt.tight_layout()
 plt.show()
 
 display=[image,output]
-titles=["Input Image","Output Image"]
+titles=["Input image","Output Image"]
 for i in range(len(display)):
-    plt.subplot(1, 2, i+1)
+    plt.subplot(1,2 , i+1)
     plt.title(titles[i])
     plt.imshow(display[i], cmap='gray')
     plt.axis('off')

@@ -3,7 +3,11 @@ import matplotlib.pyplot as plt
 import cv2
 
 # Load and denoise the image
+<<<<<<< HEAD
 image = cv2.imread(r"E:\Study Material\NIIT\6th Semester\Computer Vision\Lab\Crack.jpg", cv2.IMREAD_GRAYSCALE)
+=======
+image = cv2.imread(r"chair.jpg", cv2.IMREAD_GRAYSCALE)
+>>>>>>> 976db7b74fb8d528c8cef10d7b0d669469b56a50
 image=cv2.resize(image,(256,256))
 
 
